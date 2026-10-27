@@ -4,6 +4,12 @@
 
 ![tech](https://img.shields.io/badge/Three.js-r128-35d6ff) ![tech](https://img.shields.io/badge/ECharts-5.5-1c6bff) ![tech](https://img.shields.io/badge/data-Open--Meteo%20CAMS-2ee6b0)
 
+## 在线访问
+
+> **https://sdfdf789.github.io/env-digital-twin/**
+>
+> 由 GitHub Pages 托管（`main` 分支根目录，HTTPS 强制），推送即自动发布，全球可访问。
+
 ---
 
 ## 一、快速运行
@@ -102,3 +108,30 @@ server.js             本地静态服务（端口 8300）
 - 本页为数据可视化演示：水质、污染源为公报口径基线而非实时断面数据（国控断面接口需鉴权代理，接入后可平滑替换 `data-service.js` 中的 `loadBaseline()`）。
 - 省会监测点取省政府驻地坐标，代表城市尺度而非全省面平均。
 - 所有时间按 `Asia/Shanghai` 对齐，数据时次以接口返回的 `current.time` 为准，显示在 AQI 面板「统计时次」。
+
+---
+
+## 七、部署
+
+当前线上版本部署于 **GitHub Pages**：
+
+| 项 | 值 |
+|---|---|
+| 访问地址 | https://sdfdf789.github.io/env-digital-twin/ |
+| 仓库 | https://github.com/sdfdf789/env-digital-twin |
+| 发布源 | `main` 分支根目录（`/`） |
+| 协议 | HTTPS 强制（HSTS），HTTP 自动跳转 |
+| 构建 | 无构建步骤，推送 `main` 后由 GitHub 自动发布，约 30–90 秒生效 |
+
+**更新流程**（改完代码后）：
+
+```bash
+git add -A
+git commit -m "描述本次改动"
+git push origin main      # 推送后自动重新发布
+```
+
+**首次从零部署**：运行 `bash deploy-github.sh`（幂等脚本，完成建仓 → 推送 → 开启 Pages → 轮询上线）。脚本依赖已登录的 Git Credential Manager 凭据，不含任何硬编码令牌。
+
+**注意**：GitHub Pages 在中国大陆访问速度不稳定，首次加载需下载 1 MB 的 ECharts 与 600 KB 的 Three.js，弱网下首屏可能等待 10–30 秒（页面已有引导加载层与进度提示）。如需国内加速，可将本仓库镜像到 Gitee Pages 或任意对象存储 + CDN，静态资源路径全部为相对路径，无需改代码。
+
